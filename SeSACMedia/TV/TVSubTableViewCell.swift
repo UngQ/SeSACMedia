@@ -42,7 +42,7 @@ class TVSubTableViewCell: UITableViewCell {
 	}
 
 	func configureCell() {
-
+		titleLabel.font = .boldSystemFont(ofSize: 14)
 
 	}
 

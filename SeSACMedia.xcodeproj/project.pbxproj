@@ -24,6 +24,8 @@
 		A5BDFE4C2B69320800095511 /* TVSubCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE4B2B69320800095511 /* TVSubCollectionViewCell.swift */; };
 		A5BDFE502B693BBD00095511 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A5BDFE4F2B693BBD00095511 /* .gitignore */; };
 		A5BDFE532B693BEC00095511 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE522B693BEC00095511 /* APIKey.swift */; };
+		A5BDFE552B693D2700095511 /* TMDBAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE542B693D2700095511 /* TMDBAPIManager.swift */; };
+		A5BDFE572B693E8600095511 /* TrendingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE562B693E8600095511 /* TrendingModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		A5BDFE4B2B69320800095511 /* TVSubCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSubCollectionViewCell.swift; sourceTree = "<group>"; };
 		A5BDFE4F2B693BBD00095511 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		A5BDFE522B693BEC00095511 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		A5BDFE542B693D2700095511 /* TMDBAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPIManager.swift; sourceTree = "<group>"; };
+		A5BDFE562B693E8600095511 /* TrendingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				A5BDFE522B693BEC00095511 /* APIKey.swift */,
+				A5BDFE542B693D2700095511 /* TMDBAPIManager.swift */,
+				A5BDFE562B693E8600095511 /* TrendingModel.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -206,6 +212,8 @@
 				A5BDFE272B691BB900095511 /* ViewController.swift in Sources */,
 				A5BDFE482B6928DA00095511 /* TVTableViewCell.swift in Sources */,
 				A5BDFE232B691BB900095511 /* AppDelegate.swift in Sources */,
+				A5BDFE572B693E8600095511 /* TrendingModel.swift in Sources */,
+				A5BDFE552B693D2700095511 /* TMDBAPIManager.swift in Sources */,
 				A5BDFE4C2B69320800095511 /* TVSubCollectionViewCell.swift in Sources */,
 				A5BDFE382B69219000095511 /* TVViewController.swift in Sources */,
 				A5BDFE4A2B692D6600095511 /* TVSubTableViewCell.swift in Sources */,
