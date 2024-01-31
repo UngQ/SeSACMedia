@@ -23,7 +23,7 @@ class TMDBAPIManager {
 			case .success(let success):
 				completionHandler(success.results)
 			case .failure(let failure):
-				print("fail")
+				dump(failure)
 			}
 		}
 	}

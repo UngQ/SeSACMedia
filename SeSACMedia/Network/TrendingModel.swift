@@ -14,7 +14,7 @@ struct TrendingModel: Decodable {
 
 struct TV: Decodable {
 	let name: String
-	let poster: String
+	let poster: String?
 	let adult: Bool
 
 	enum CodingKeys: String, CodingKey {

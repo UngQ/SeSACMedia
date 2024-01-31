@@ -24,7 +24,7 @@ enum TVListType: String, CaseIterable {
 		case .topRated:
 			return "https://api.themoviedb.org/3/tv/top_rated?language=ko-KR"
 		case .popular:
-			return "https://api.themoviedb.org/3/tv/top_rated?language=ko-KR"
+			return "https://api.themoviedb.org/3/tv/popular"
 		}
 	}
 }
@@ -137,17 +137,17 @@ extension TVViewController: UICollectionViewDataSource, UICollectionViewDelegate
 
 		switch collectionView.tag {
 		case 1:			
-			let image = trendTVList[indexPath.item].poster
+			let image = trendTVList[indexPath.item].poster ?? ""
 			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
 			cell.posterImageView.kf.setImage(with: url)
 			return cell
 		case 2:
-			let image = topRatedTVList[indexPath.item].poster
+			let image = topRatedTVList[indexPath.item].poster ?? ""
 			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
 			cell.posterImageView.kf.setImage(with: url)
 			return cell
 		case 3:
-			let image = popularTVList[indexPath.item].poster
+			let image = popularTVList[indexPath.item].poster ?? ""
 			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
 			cell.posterImageView.kf.setImage(with: url)
 			return cell
