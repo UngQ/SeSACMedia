@@ -9,11 +9,24 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-enum TVListType: String, CaseIterable {
+enum TVListType: Int, CaseIterable {
 	case main
-	case trend = "이번 주 트렌드"
-	case topRated = "이번 주 최고 평점"
-	case popular = "이번 주 가장 인기 있는!"
+	case trend
+	case topRated
+	case popular
+
+	var title: String {
+		switch self {
+		case .main:
+			return ""
+		case .trend:
+			return "이번 주 트렌드"
+		case .topRated:
+			return "이번 주 최고 평점"
+		case .popular:
+			return "이번 주 가장 인기 있는!"
+		}
+	}
 
 	var url: String {
 		switch self {
@@ -24,18 +37,23 @@ enum TVListType: String, CaseIterable {
 		case .topRated:
 			return "https://api.themoviedb.org/3/tv/top_rated?language=ko-KR"
 		case .popular:
-			return "https://api.themoviedb.org/3/tv/popular"
+			return "https://api.themoviedb.org/3/tv/popular?language=ko-KR"
 		}
 	}
 }
 
-class TVViewController: UIViewController {
+class TVViewController: BaseViewController {
 
-	let tableView = UITableView()
+	let mainTableView = UITableView()
 
-	var trendTVList: [TV] = []
-	var topRatedTVList: [TV] = []
-	var popularTVList: [TV] = []
+	var trendList: [TV] = []
+	var topRatedList: [TV] = []
+	var popularList: [TV] = []
+	var tvID: Int = 0 {
+		didSet {
+			UserDefaults.standard.setValue(tvID, forKey: "ID")
+		}
+	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,40 +64,48 @@ class TVViewController: UIViewController {
 		configureLayout()
 		configureView()
 
-		TMDBAPIManager.shared.fetchTVList(url: TVListType.trend.url) { TV in
-			self.trendTVList = TV
-			self.tableView.reloadData()
+		let group = DispatchGroup()
+
+		group.enter()
+		TMDBAPIManager.shared.fetchTVList(url: TVListType.trend.url) {
+			self.trendList = $0
+			group.leave()
 		}
 
-		TMDBAPIManager.shared.fetchTVList(url: TVListType.topRated.url) { TV in
-			self.topRatedTVList = TV
-			self.tableView.reloadData()
-			print(self.trendTVList)
+		group.enter()
+		TMDBAPIManager.shared.fetchTVList(url: TVListType.topRated.url) {
+			self.topRatedList = $0
+			group.leave()
 		}
 
-		TMDBAPIManager.shared.fetchTVList(url: TVListType.popular.url) { TV in
-			self.popularTVList = TV
-			self.tableView.reloadData()
-			print(self.popularTVList)
+		group.enter()
+		TMDBAPIManager.shared.fetchTVList(url: TVListType.popular.url) {
+			self.popularList = $0
+			group.leave()
+		}
+
+		group.notify(queue: .main) {
+			self.mainTableView.reloadData()
 		}
     }
 
-	func configureHierarchy() {
-		view.addSubview(tableView)
+	override func configureHierarchy() {
+		view.addSubview(mainTableView)
 	}
 
-	func configureLayout() {
-		tableView.snp.makeConstraints { make in
+	override func configureLayout() {
+		mainTableView.snp.makeConstraints { make in
 			make.edges.equalTo(view.safeAreaLayoutGuide)
 		}
 	}
 
-	func configureView() {
-		tableView.delegate = self
-		tableView.dataSource = self
-		tableView.register(TVTableViewCell.self, forCellReuseIdentifier: "TVTableViewCell")
-		tableView.register(TVSubTableViewCell.self, forCellReuseIdentifier: "TVSubTableViewCell")
-		tableView.rowHeight = UITableView.automaticDimension
+	override func configureView() {
+		mainTableView.delegate = self
+		mainTableView.dataSource = self
+		mainTableView.register(TVTableViewCell.self, forCellReuseIdentifier: "TVTableViewCell")
+		mainTableView.register(TVSubTableViewCell.self, forCellReuseIdentifier: "TVSubTableViewCell")
+		mainTableView.rowHeight = UITableView.automaticDimension
+
 	}
 }
 
@@ -93,24 +119,19 @@ extension TVViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "TVTableViewCell", for: indexPath) as! TVTableViewCell
-
-			let image = trendTVList.randomElement()?.poster ?? ""
-			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
-			cell.posterImageView.kf.setImage(with: url)
-
-
-			return cell
+			cell.selectionStyle = .none
+			return configureFirstRowTableViewCell(cell: cell, list: trendList)
 
 		} else {
 
 			let cell = tableView.dequeueReusableCell(withIdentifier: "TVSubTableViewCell", for: indexPath) as! TVSubTableViewCell
-
+			cell.selectionStyle = .none
 			cell.collectionView.dataSource = self
 			cell.collectionView.delegate = self
 			cell.collectionView.register(TVSubCollectionViewCell.self, forCellWithReuseIdentifier: "TVSubCollectionViewCell")
 			cell.collectionView.tag = indexPath.row
 
-			cell.titleLabel.text = TVListType.allCases[indexPath.row].rawValue
+			cell.titleLabel.text = TVListType.allCases[indexPath.row].title
 
 			cell.collectionView.reloadData()
 			return cell
@@ -118,16 +139,33 @@ extension TVViewController: UITableViewDelegate, UITableViewDataSource {
 		}
 	}
 
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if indexPath.row == 0 {
+			tvID = trendList.randomElement()?.id ?? 0
+			print(tvID)
+			print(UserDefaults.standard.integer(forKey: "ID"))
+		}
+	}
 
+	func configureFirstRowTableViewCell(cell: TVTableViewCell, list: [TV]) -> TVTableViewCell {
+		if let image = list.randomElement()?.poster {
+			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
+			cell.posterImageView.kf.setImage(with: url)
+		} else {
+			cell.posterImageView.image = UIImage(systemName: "xmark")
+		}
+		return cell
+	}
 }
 
-//테이블뷰내 컬렉션뷰 (indexPath.row 1부터)
+//테이블뷰내 컬렉션뷰 (indexPath.row, collectionview.tag 1부터)
 extension TVViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
 		switch collectionView.tag {
-		case 1: return trendTVList.count
-		case 2: return topRatedTVList.count
-		case 3: return popularTVList.count
+		case 1: return trendList.count
+		case 2: return topRatedList.count
+		case 3: return popularList.count
 		default: return 0
 		}
 	}
@@ -136,23 +174,49 @@ extension TVViewController: UICollectionViewDataSource, UICollectionViewDelegate
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TVSubCollectionViewCell", for: indexPath) as! TVSubCollectionViewCell
 
 		switch collectionView.tag {
-		case 1:			
-			let image = trendTVList[indexPath.item].poster ?? ""
-			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
-			cell.posterImageView.kf.setImage(with: url)
-			return cell
+		case 1:
+			return configureCollectionViewCell(cell: cell, list: trendList, item: indexPath.item)
 		case 2:
-			let image = topRatedTVList[indexPath.item].poster ?? ""
-			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
-			cell.posterImageView.kf.setImage(with: url)
-			return cell
+			return configureCollectionViewCell(cell: cell, list: topRatedList, item: indexPath.item)
 		case 3:
-			let image = popularTVList[indexPath.item].poster ?? ""
-			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
-			cell.posterImageView.kf.setImage(with: url)
-			return cell
+			return configureCollectionViewCell(cell: cell, list: popularList, item: indexPath.item)
 		default:
 			return cell
 		}
+	}
+
+	func configureCollectionViewCell(cell: TVSubCollectionViewCell, list: [TV], item: Int) -> TVSubCollectionViewCell {
+
+		if let image = list[item].poster {
+			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
+			cell.posterImageView.kf.setImage(with: url)
+		} else {
+			cell.posterImageView.image = UIImage(systemName: "xmark")
+		}
+
+		return cell
+	}
+
+
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		tvID = trendList[indexPath.item].id
+
+		switch collectionView.tag {
+		case 1:
+			tvID = trendList[indexPath.item].id
+		case 2:
+			tvID = topRatedList[indexPath.item].id
+		case 3:
+			tvID = popularList[indexPath.item].id
+		default:
+			print("오류")
+		}
+
+		print(tvID)
+		print(UserDefaults.standard.integer(forKey: "ID"))
+
+		let vc = TVDetailViewController()
+		navigationController?.pushViewController(vc, animated: true)
+
 	}
 }

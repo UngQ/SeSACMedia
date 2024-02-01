@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5701CB52B6A14C400F126B0 /* TVDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701CB42B6A14C400F126B0 /* TVDetailViewController.swift */; };
+		A5701CB82B6A284900F126B0 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701CB72B6A284900F126B0 /* BaseViewController.swift */; };
+		A5701CBA2B6A853D00F126B0 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701CB92B6A853D00F126B0 /* MainTabBarController.swift */; };
 		A5BDFE232B691BB900095511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE222B691BB900095511 /* AppDelegate.swift */; };
 		A5BDFE252B691BB900095511 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE242B691BB900095511 /* SceneDelegate.swift */; };
 		A5BDFE272B691BB900095511 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE262B691BB900095511 /* ViewController.swift */; };
@@ -29,6 +32,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A5701CB42B6A14C400F126B0 /* TVDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetailViewController.swift; sourceTree = "<group>"; };
+		A5701CB72B6A284900F126B0 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		A5701CB92B6A853D00F126B0 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		A5BDFE1F2B691BB900095511 /* SeSACMedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5BDFE222B691BB900095511 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5BDFE242B691BB900095511 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +69,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A5701CB32B6A132800F126B0 /* TVDetail */ = {
+			isa = PBXGroup;
+			children = (
+				A5701CB42B6A14C400F126B0 /* TVDetailViewController.swift */,
+			);
+			path = TVDetail;
+			sourceTree = "<group>";
+		};
+		A5701CB62B6A283800F126B0 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				A5701CB72B6A284900F126B0 /* BaseViewController.swift */,
+				A5701CB92B6A853D00F126B0 /* MainTabBarController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		A5BDFE162B691BB900095511 = {
 			isa = PBXGroup;
 			children = (
@@ -83,9 +106,11 @@
 		A5BDFE212B691BB900095511 /* SeSACMedia */ = {
 			isa = PBXGroup;
 			children = (
+				A5701CB62B6A283800F126B0 /* Base */,
 				A5BDFE512B693BE000095511 /* Network */,
 				A5BDFE442B6924B700095511 /* CustomView */,
 				A5BDFE362B691BD200095511 /* TV */,
+				A5701CB32B6A132800F126B0 /* TVDetail */,
 				A5BDFE222B691BB900095511 /* AppDelegate.swift */,
 				A5BDFE242B691BB900095511 /* SceneDelegate.swift */,
 				A5BDFE262B691BB900095511 /* ViewController.swift */,
@@ -209,6 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5701CB82B6A284900F126B0 /* BaseViewController.swift in Sources */,
 				A5BDFE272B691BB900095511 /* ViewController.swift in Sources */,
 				A5BDFE482B6928DA00095511 /* TVTableViewCell.swift in Sources */,
 				A5BDFE232B691BB900095511 /* AppDelegate.swift in Sources */,
@@ -216,7 +242,9 @@
 				A5BDFE552B693D2700095511 /* TMDBAPIManager.swift in Sources */,
 				A5BDFE4C2B69320800095511 /* TVSubCollectionViewCell.swift in Sources */,
 				A5BDFE382B69219000095511 /* TVViewController.swift in Sources */,
+				A5701CB52B6A14C400F126B0 /* TVDetailViewController.swift in Sources */,
 				A5BDFE4A2B692D6600095511 /* TVSubTableViewCell.swift in Sources */,
+				A5701CBA2B6A853D00F126B0 /* MainTabBarController.swift in Sources */,
 				A5BDFE252B691BB900095511 /* SceneDelegate.swift in Sources */,
 				A5BDFE532B693BEC00095511 /* APIKey.swift in Sources */,
 				A5BDFE462B6924DF00095511 /* PosterImageView.swift in Sources */,
