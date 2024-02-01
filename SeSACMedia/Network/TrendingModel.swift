@@ -8,19 +8,21 @@
 import Foundation
 
 
-struct TrendingModel: Decodable {
-	let results: [TV]
+struct TVModel: Decodable {
+	let results: [TV]?
 }
 
 struct TV: Decodable {
-	let name: String
-	let poster: String?
 	let id: Int
+	let name: String
+	let posterPath: String?
+
 
 	enum CodingKeys: String, CodingKey {
-		case name
-		case poster = "poster_path"
 		case id
+		case name
+		case posterPath = "poster_path"
+
 	}
 }
 
@@ -72,22 +74,6 @@ struct SeasonInfo: Decodable {
 //
 
 
-
-//struct CastListModel: Decodable {
-//	let castList: [Cast]?
-//}
-//
-//struct Cast: Decodable {
-//	let name: String?
-//	let profile: String?
-//
-//	enum CodingKeys: String, CodingKey {
-//		case name
-//		case profile = "profile_path"
-//	}
-//}
-
-
 struct CastModel: Codable {
 	let cast: [Cast]
 }
@@ -97,25 +83,5 @@ struct Cast: Codable {
 
 	enum CodingKeys: String, CodingKey {
 		case profilePath = "profile_path"
-	}
-}
-
-
-
-//
-
-
-
-struct RecommendModel: Codable {
-	let results: [RecommendModelResult]
-}
-
-struct RecommendModelResult: Codable {
-	let id: Int
-	let posterPath: String?
-
-	enum CodingKeys: String, CodingKey {
-		case id
-		case posterPath = "poster_path"
 	}
 }

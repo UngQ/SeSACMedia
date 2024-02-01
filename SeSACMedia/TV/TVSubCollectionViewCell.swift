@@ -34,7 +34,6 @@ class TVSubCollectionViewCell: UICollectionViewCell {
 	}
 
 	func configureCell() {
-
 	}
 
 	required init?(coder: NSCoder) {

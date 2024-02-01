@@ -17,7 +17,7 @@ class TVTableViewCell: UITableViewCell {
 
 		configureHierarchy()
 		configureLayout()
-
+		configureCell()
 	}
 
 	func configureHierarchy() {
@@ -34,6 +34,7 @@ class TVTableViewCell: UITableViewCell {
 	}
 
 	func configureCell() {
+		self.backgroundColor = .black
 
 	}
 

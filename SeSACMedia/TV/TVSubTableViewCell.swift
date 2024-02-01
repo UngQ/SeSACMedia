@@ -43,7 +43,9 @@ class TVSubTableViewCell: UITableViewCell {
 
 	func configureCell() {
 		titleLabel.font = .boldSystemFont(ofSize: 14)
-
+		titleLabel.textColor = .white
+		self.backgroundColor = .black
+		collectionView.backgroundColor = .black
 	}
 
 	static func configureCollectionViewLayout() -> UICollectionViewLayout {
