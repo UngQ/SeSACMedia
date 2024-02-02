@@ -46,6 +46,8 @@ class TVDetailView: BaseView {
 		let group = DispatchGroup()
 
 		group.enter()
+
+		
 		TMDBAPIManager.shared.fetchTVDetailInfo(id: id) {
 			TVDetailViewController.selectedTV = $0
 			group.leave()
@@ -69,6 +71,7 @@ class TVDetailView: BaseView {
 		}
 
 		mainTableView.backgroundColor = .black
+		overviewTextView.backgroundColor = .clear
 	}
 
 	func configureTVDetail() {
@@ -77,9 +80,7 @@ class TVDetailView: BaseView {
 			posterImageView.kf.setImage(with: url)
 		}
 
-		overviewTextView.backgroundColor = .clear
 		overviewTextView.text = TVDetailViewController.selectedTV.overview
-
 		overviewTextView.textColor = .white
 		overviewTextView.font = .boldSystemFont(ofSize: 15)
 		overviewTextView.isEditable = false

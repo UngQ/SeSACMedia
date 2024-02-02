@@ -13,10 +13,27 @@ class TMDBAPIManager {
 	static let shared = TMDBAPIManager()
 	private init() {}
 
+	func request<T: Decodable>(type: T.Type, api: TMDBAPI, completionHandler: @escaping (T) -> Void) {
+
+		AF.request(api.endPoint,
+				   method: api.method,
+				   parameters: api.parameter,
+				   encoding: api.encoding,
+				   headers: api.header).responseDecodable(of: T.self) { response in
+			switch response.result {
+			case .success(let success):
+				completionHandler(success)
+			case .failure(let failure):
+				print(failure)
+
+			}
+		}
+	}
+
 	func fetchTVList(api: TMDBAPI, completionHandler: @escaping ([TV]) -> Void) {
 
 		AF.request(api.endPoint,
-				   headers: TMDBAPI.header).responseDecodable(of: TVModel.self) { response in
+				   headers: api.header).responseDecodable(of: TVModel.self) { response in
 			switch response.result {
 			case .success(let success):
 				completionHandler(success.results ?? [])

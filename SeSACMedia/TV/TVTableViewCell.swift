@@ -35,6 +35,7 @@ class TVTableViewCell: UITableViewCell {
 
 	func configureCell() {
 		self.backgroundColor = .black
+		
 
 	}
 

@@ -10,9 +10,7 @@ import Alamofire
 
 enum TMDBAPI {
 
-	static let header: HTTPHeaders = ["Authorization": APIKey.tmdb]
-
-	case main
+	case airingToday
 	case trend
 	case topRated
 	case popular
@@ -22,33 +20,42 @@ enum TMDBAPI {
 		return "https://api.themoviedb.org/3/"
 	}
 
-	//		var title: String {
-	//			switch self {
-	//			case .main:
-	//				return ""
-	//			case .trend:
-	//				return "이번 주 트렌드"
-	//			case .topRated:
-	//				return "이번 주 최고 평점"
-	//			case .popular:
-	//				return "이번 주 가장 인기 있는!"
-	//		case .recommend:
-	//			return "비슷한 컨텐츠"
-	//			}
-	//		}
-
 	var endPoint: URL {
 		switch self {
-		case .main:
-			return URL(string: baseURL + "tv/airing_today?language=ko-KR")!
+		case .airingToday:
+			return URL(string: baseURL + "tv/airing_today")!
 		case .trend:
-			return URL(string: baseURL + "trending/tv/week?language=ko-KR")!
+			return URL(string: baseURL + "trending/tv/week")!
 		case .topRated:
-			return URL(string: baseURL + "tv/top_rated?language=ko-KR")!
+			return URL(string: baseURL + "tv/top_rated")!
 		case .popular:
-			return URL(string: baseURL + "tv/popular?language=ko-KR")!
+			return URL(string: baseURL + "tv/popular")!
 		case .recommend(let id):
 			return URL(string: baseURL + "tv/\(id)/recommendations")!
 		}
 	}
+
+	var method: HTTPMethod {
+		return .get
+	}
+
+	var parameter: Parameters {
+		switch self {
+		case .airingToday, .trend, .topRated, .popular, .recommend:
+			["language": "ko-KR"]
+			
+		}
+	}
+
+	var encoding: URLEncoding {
+		return .queryString
+	}
+
+	var header: HTTPHeaders {
+		return ["Authorization": APIKey.tmdb]
+	}
+
+
+
+
 }

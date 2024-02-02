@@ -13,7 +13,7 @@ class PosterImageView: UIImageView {
 		super.init(frame: frame)
 
 		clipsToBounds = true
-		backgroundColor = .brown
+		backgroundColor = .black
 		contentMode = .scaleAspectFill
 		layer.cornerRadius = 12
 	}

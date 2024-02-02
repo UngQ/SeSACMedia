@@ -34,38 +34,35 @@ class TVView: BaseView {
 
 
 	override func configureView() {
-		
 
 		let group = DispatchGroup()
 
 		group.enter()
-		TMDBAPIManager.shared.fetchTVList(api: .main) {
-			TVViewController.airingTodayList = $0
+		TMDBAPIManager.shared.request(type: TVModel.self, api: .airingToday) {
+			TVViewController.airingTodayList = $0.results ?? []
 			TVViewController.randomAiringToday = TVViewController.airingTodayList.randomElement()!
 			group.leave()
 		}
 
 		group.enter()
-		TMDBAPIManager.shared.fetchTVList(api: .trend) {
-			TVViewController.trendList = $0
+		TMDBAPIManager.shared.request(type: TVModel.self, api: .trend) {
+			TVViewController.trendList = $0.results ?? []
 			group.leave()
 		}
 
 		group.enter()
-		TMDBAPIManager.shared.fetchTVList(api: .topRated) {
-			TVViewController.topRatedList = $0
+		TMDBAPIManager.shared.request(type: TVModel.self, api: .topRated) {			
+			TVViewController.topRatedList = $0.results ?? []
 			group.leave()
 		}
 
-
 		group.enter()
-		TMDBAPIManager.shared.fetchTVList(api: .popular) {
-			TVViewController.popularList = $0
+		TMDBAPIManager.shared.request(type: TVModel.self, api: .popular) {
+			TVViewController.popularList = $0.results ?? []
 			group.leave()
 		}
 
 		group.notify(queue: .main) {
-
 			self.mainTableView.reloadData()
 		}
 	}
