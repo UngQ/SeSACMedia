@@ -17,7 +17,7 @@ enum DetailInfoType: Int, CaseIterable {
 	var title: String {
 		switch self {
 		case .cast:
-			return "출연진 바보"
+			return "출연진"
 		case .recommend:
 			return "비슷한 콘텐츠"
 		}
@@ -81,7 +81,7 @@ class TVDetailViewController: BaseViewController {
 
 	override func configureView() {
 		configureNavigationBar()
-		
+
 		TVDetailView.mainTableView.delegate = self
 		TVDetailView.mainTableView.dataSource = self
 		TVDetailView.mainTableView.register(TVSubTableViewCell.self, forCellReuseIdentifier: "TableViewCellInDetail")

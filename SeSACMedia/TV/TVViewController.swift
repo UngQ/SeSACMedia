@@ -111,6 +111,9 @@ class TVViewController: BaseViewController {
 		let navigationRightBarButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(navigationRightBarButtonClicked))
 		navigationItem.rightBarButtonItem = navigationRightBarButton
 		navigationItem.title = "nickname님 환영합니다"
+
+		let backBarButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+		navigationItem.backBarButtonItem = backBarButton
 	}
 
 	@objc func navigationRightBarButtonClicked() {
