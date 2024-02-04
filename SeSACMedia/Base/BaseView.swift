@@ -33,6 +33,7 @@ class BaseView: UIView {
 
 	func configureView() {
 
+
 	}
 
 

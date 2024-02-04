@@ -74,11 +74,11 @@ struct SeasonInfo: Decodable {
 //
 
 
-struct CastModel: Codable {
+struct CastModel: Decodable {
 	let cast: [Cast]
 }
 
-struct Cast: Codable {
+struct Cast: Decodable {
 	let profilePath: String?
 
 	enum CodingKeys: String, CodingKey {

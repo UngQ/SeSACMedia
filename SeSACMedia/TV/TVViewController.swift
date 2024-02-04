@@ -9,20 +9,67 @@ import UIKit
 import SnapKit
 import Kingfisher
 
+enum TVListType: Int, CaseIterable {
+	case airingToday = 0
+	case trend = 1
+	case topRated = 3
+	case popular = 2
+
+	var title: String {
+		switch self {
+		case .airingToday:
+			return "현재 방영 중"
+		case .trend:
+			return "이번 주 트렌드"
+		case .topRated:
+			return "이번 주 최고 평점"
+		case .popular:
+			return "이번 주 가장 인기 있는!"
+		}
+	}
+
+	var list: [TV] {
+		switch self {
+		case .airingToday:
+			return TVViewController.airingTodayList
+		case .trend:
+			return TVViewController.trendList
+		case .topRated:
+			return TVViewController.topRatedList
+		case .popular:
+			return TVViewController.popularList
+		}
+	}
+
+	var count: Int {
+		switch self {
+		case .airingToday:
+			return TVViewController.airingTodayList.count 
+		case .trend:
+			return TVViewController.trendList.count
+		case .topRated:
+			return TVViewController.topRatedList.count
+		case .popular:
+			return TVViewController.popularList.count
+		}
+	}
+}
+
 class TVViewController: BaseViewController {
 
 	static var airingTodayList: [TV] = []
-	static var randomAiringToday: TV = TV(id: 0, name: "", posterPath: "")
-
 	static var trendList: [TV] = []
 	static var topRatedList: [TV] = []
 	static var popularList: [TV] = []
-	
+
+	static var mainTV: TV = TV(id: 0, name: "", posterPath: "")
+
 	var tvID: Int = 0 {
 		didSet {
 			UserDefaults.standard.setValue(tvID, forKey: "ID")
 		}
 	}
+
 	var tvTitle: String = "" {
 		didSet {
 			UserDefaults.standard.setValue(tvTitle, forKey: "Title")
@@ -37,15 +84,20 @@ class TVViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		configureNavigationBar()
+
+
     }
 
 	override func configureView() {
+		configureNavigationBar()
+		configureTableView()
+	}
+
+	func configureTableView() {
 		mainView.mainTableView.delegate = self
 		mainView.mainTableView.dataSource = self
 		mainView.mainTableView.register(TVTableViewCell.self, forCellReuseIdentifier: "TVTableViewCell")
 		mainView.mainTableView.register(TVSubTableViewCell.self, forCellReuseIdentifier: "TVSubTableViewCell")
-		mainView.mainTableView.rowHeight = UITableView.automaticDimension
 		mainView.mainTableView.backgroundColor = .black
 	}
 
@@ -62,12 +114,22 @@ class TVViewController: BaseViewController {
 	}
 
 	@objc func navigationRightBarButtonClicked() {
-		print("click")
+		navigationController?.pushViewController(SearchViewController(), animated: true)
 	}
 }
 
 //테이블뷰
+
+
 extension TVViewController: UITableViewDelegate, UITableViewDataSource {
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		if indexPath.row == 0 {
+			return UITableView.automaticDimension
+		}
+		return (UIScreen.main.bounds.width / 3 - 8) * 1.4 + 30
+	}
+
+
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
 		return TVListType.allCases.count
@@ -77,7 +139,19 @@ extension TVViewController: UITableViewDelegate, UITableViewDataSource {
 		if indexPath.row == 0 {
 			let cell = tableView.dequeueReusableCell(withIdentifier: "TVTableViewCell", for: indexPath) as! TVTableViewCell
 			cell.selectionStyle = .none
-			return configureFirstRowTableViewCell(cell: cell, list: TVViewController.airingTodayList)
+			
+			guard let main = TVListType(rawValue: 0)?.list.randomElement() else { return cell }
+			TVViewController.mainTV = main
+			guard let path = main.posterPath else {
+				cell.posterImageView.contentMode = .scaleAspectFit
+				cell.posterImageView.image = UIImage(systemName: "xmark")
+				return cell }
+			let url = URL(string: "https://image.tmdb.org/t/p/w500\(path)")
+			cell.posterImageView.kf.setImage(with: url)
+			cell.posterImageView.contentMode = .scaleAspectFill
+
+			return cell
+
 		} else {
 
 			let cell = tableView.dequeueReusableCell(withIdentifier: "TVSubTableViewCell", for: indexPath) as! TVSubTableViewCell
@@ -87,7 +161,9 @@ extension TVViewController: UITableViewDelegate, UITableViewDataSource {
 			cell.collectionView.register(TVSubCollectionViewCell.self, forCellWithReuseIdentifier: "TVSubCollectionViewCell")
 			cell.collectionView.tag = indexPath.row
 
-			cell.titleLabel.text = TVListType.allCases[indexPath.row].title
+			if let listType = TVListType(rawValue: cell.collectionView.tag) {
+				cell.titleLabel.text = listType.title
+			}
 
 			cell.collectionView.reloadData()
 			return cell
@@ -98,21 +174,10 @@ extension TVViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.row == 0 {
 
-			tvID = TVViewController.randomAiringToday.id
-			tvTitle = TVViewController.randomAiringToday.name
+			tvID = TVViewController.mainTV.id
+			tvTitle = TVViewController.mainTV.name
 			navigationController?.pushViewController(TVDetailViewController(), animated: true)
-
 		}
-	}
-
-	func configureFirstRowTableViewCell(cell: TVTableViewCell, list: [TV]) -> TVTableViewCell {
-		if let image = TVViewController.randomAiringToday.posterPath {
-			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
-			cell.posterImageView.kf.setImage(with: url)
-		} else {
-			cell.posterImageView.image = UIImage(systemName: "xmark")
-		}
-		return cell
 	}
 }
 
@@ -120,57 +185,41 @@ extension TVViewController: UITableViewDelegate, UITableViewDataSource {
 extension TVViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-		switch collectionView.tag {
-		case 1: return TVViewController.trendList.count
-		case 2: return TVViewController.topRatedList.count
-		case 3: return TVViewController.popularList.count
-		default: return 0
+		if let listType = TVListType(rawValue: collectionView.tag) {
+			return listType.count
 		}
+		return 0
 	}
-	
+
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TVSubCollectionViewCell", for: indexPath) as! TVSubCollectionViewCell
 
-		switch collectionView.tag {
-		case 1:
-			return configureCollectionViewCell(cell: cell, list: TVViewController.trendList, item: indexPath.item)
-		case 2:
-			return configureCollectionViewCell(cell: cell, list: TVViewController.topRatedList, item: indexPath.item)
-		case 3:
-			return configureCollectionViewCell(cell: cell, list: TVViewController.popularList, item: indexPath.item)
-		default:
-			return cell
-		}
-	}
-
-	func configureCollectionViewCell(cell: TVSubCollectionViewCell, list: [TV], item: Int) -> TVSubCollectionViewCell {
-
-		if let image = list[item].posterPath {
-			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
-			cell.posterImageView.kf.setImage(with: url)
-		} else {
-			cell.posterImageView.image = UIImage(systemName: "xmark")
+		if let listType = TVListType(rawValue: collectionView.tag) {
+			configureCollectionViewCell(cell: cell, list: listType.list, item: indexPath.row)
 		}
 
 		return cell
 	}
 
+	func configureCollectionViewCell(cell: TVSubCollectionViewCell, list: [TV], item: Int) {
+
+		guard let image = list[item].posterPath else { 
+			cell.posterImageView.image = UIImage(systemName: "xmark")
+			cell.posterImageView.contentMode = .scaleAspectFit
+			return }
+		let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
+		cell.posterImageView.kf.setImage(with: url)
+		cell.posterImageView.contentMode = .scaleAspectFill
+
+	}
+
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		tvID = TVViewController.trendList[indexPath.item].id
 
-		switch collectionView.tag {
-		case 1:
-			tvID = TVViewController.trendList[indexPath.item].id
-			tvTitle = TVViewController.trendList[indexPath.item].name
-		case 2:
-			tvID = TVViewController.topRatedList[indexPath.item].id
-			tvTitle = TVViewController.topRatedList[indexPath.item].name
-		case 3:
-			tvID = TVViewController.popularList[indexPath.item].id
-			tvTitle = TVViewController.popularList[indexPath.item].name
-		default:
-			print("오류")
+		if let listType = TVListType(rawValue: collectionView.tag) {
+			tvID = listType.list[indexPath.row].id
+			tvTitle = listType.list[indexPath.row].name
 		}
 
 		let vc = TVDetailViewController()

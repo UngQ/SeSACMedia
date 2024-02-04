@@ -10,7 +10,7 @@ import UIKit
 class TVSubTableViewCell: UITableViewCell {
 	
 	let titleLabel = UILabel()
-	let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout())
+	let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout(size: CGSize(width: UIScreen.main.bounds.width / 3 - 8  , height: (UIScreen.main.bounds.width / 3 - 8) * 1.4), direction: .horizontal))
 
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -35,7 +35,7 @@ class TVSubTableViewCell: UITableViewCell {
 
 		collectionView.snp.makeConstraints { make in
 			make.top.equalTo(titleLabel.snp.bottom)
-			make.height.equalTo(140)
+			make.height.greaterThanOrEqualTo(140)
 			make.horizontalEdges.bottom.equalToSuperview().inset(8)
 
 		}
@@ -48,15 +48,16 @@ class TVSubTableViewCell: UITableViewCell {
 		collectionView.backgroundColor = .black
 	}
 
-	static func configureCollectionViewLayout() -> UICollectionViewLayout {
+	static func configureCollectionViewLayout(size: CGSize, direction: UICollectionView.ScrollDirection) -> UICollectionViewLayout {
 		let layout = UICollectionViewFlowLayout()
-		layout.itemSize = CGSize(width: 100, height: 140)
+		layout.itemSize = size
 		layout.minimumLineSpacing = 4
 		layout.minimumInteritemSpacing = 0
 		layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-		layout.scrollDirection = .horizontal
+		layout.scrollDirection = direction
 		return layout
 	}
+
 
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
