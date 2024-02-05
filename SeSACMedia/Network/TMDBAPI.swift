@@ -17,6 +17,7 @@ enum TMDBAPI {
 	case recommend(id: Int)
 	case detailInfo(id: Int)
 	case cast(id: Int)
+	case search(query: String)
 
 	var baseURL: String {
 		return "https://api.themoviedb.org/3/"
@@ -38,6 +39,8 @@ enum TMDBAPI {
 			return URL(string: baseURL + "tv/\(id)")!
 		case .cast(let id):
 			return URL(string: baseURL + "tv/\(id)/aggregate_credits")!
+		case .search(query: let query):
+			return URL(string: baseURL + "search/tv?language=ko-KR&query=\(query)")!
 		}
 	}
 
@@ -52,6 +55,8 @@ enum TMDBAPI {
 		case .cast:
 			[:]
 
+		case .search(query: let query):
+			["language": "ko-KR", "query": "\(query)"]
 		}
 	}
 

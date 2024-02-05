@@ -10,30 +10,63 @@ import SnapKit
 
 class SearchViewController: BaseViewController {
 
-	let searchBar = UISearchBar()
-	let searchHistoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+	let mainView = SearchView()
+
+	var list: [TV] = []
+
+	override func loadView() {
+		view = mainView
+	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		navigationItem.title = "검색"
+
+		mainView.searchBar.delegate = self
+
+		mainView.searchCollectionView.delegate = self
+		mainView.searchCollectionView.dataSource = self
+		mainView.searchCollectionView.register(TVSubCollectionViewCell.self, forCellWithReuseIdentifier: "Search")
 
     }
 
-	override func configureHierarchy() {
-		view.addSubview(searchBar)
-		view.addSubview(searchHistoryCollectionView)
-	}
 
-	override func configureLayout() {
-		searchBar.snp.makeConstraints { make in
-			make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+
+}
+
+extension SearchViewController: UISearchBarDelegate {
+
+	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+		TMDBSessionManager.shared.fetchSearchingMovie(query: searchBar.text ?? "") { list, error in
+			if error == nil {
+				guard let list = list else { return }
+				self.list = list.results ?? []
+
+				self.mainView.searchCollectionView.reloadData()
+
+			}
 		}
-		searchHistoryCollectionView
 	}
+}
 
-	override func configureView() {
-		searchBar.searchBarStyle = .minimal
-		searchBar.placeholder = "검색어를 입력해주세요"
+
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return list.count
 	}
+	
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Search", for: indexPath) as! TVSubCollectionViewCell
+
+		if let image = list[indexPath.row].posterPath {
+			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
+			cell.posterImageView.kf.setImage(with: url)
+		}
+
+		return cell
+	}
+	
 
 }
