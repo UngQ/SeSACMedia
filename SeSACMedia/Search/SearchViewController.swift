@@ -14,14 +14,31 @@ class SearchViewController: BaseViewController {
 
 	var list: [TV] = []
 
+	var tvID: Int = 0 {
+		didSet {
+			UserDefaults.standard.setValue(tvID, forKey: "ID")
+		}
+	}
+
+	var tvTitle: String = "" {
+		didSet {
+			UserDefaults.standard.setValue(tvTitle, forKey: "Title")
+		}
+	}
+
 	override func loadView() {
 		view = mainView
 	}
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
 		navigationItem.title = "검색"
+		let backBarButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+		navigationItem.backBarButtonItem = backBarButton
+
+		let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapView))
+//		mainView.searchCollectionView.addGestureRecognizer(tapGestureRecognizer)
 
 		mainView.searchBar.delegate = self
 
@@ -29,13 +46,17 @@ class SearchViewController: BaseViewController {
 		mainView.searchCollectionView.dataSource = self
 		mainView.searchCollectionView.register(TVSubCollectionViewCell.self, forCellWithReuseIdentifier: "Search")
 
-    }
+	}
 
-
-
+	@objc func didTapView(_ sender: UITapGestureRecognizer) {
+		view.endEditing(true)
+	}
 }
 
+
 extension SearchViewController: UISearchBarDelegate {
+
+
 
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 		TMDBSessionManager.shared.fetchSearchingMovie(query: searchBar.text ?? "") { list, error in
@@ -44,7 +65,8 @@ extension SearchViewController: UISearchBarDelegate {
 				self.list = list.results ?? []
 
 				self.mainView.searchCollectionView.reloadData()
-
+				
+				self.view.endEditing(true)
 			}
 		}
 	}
@@ -67,6 +89,15 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
 		return cell
 	}
-	
+
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		
+		tvID = list[indexPath.row].id
+		tvTitle = list[indexPath.row].name
+
+		let vc = TVDetailViewController()
+		navigationController?.pushViewController(vc, animated: true)
+	}
+
 
 }

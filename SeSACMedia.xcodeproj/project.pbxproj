@@ -18,6 +18,7 @@
 		A5701CDE2B6E18FA00F126B0 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = A5701CDD2B6E18FA00F126B0 /* SnapKit-Dynamic */; };
 		A5701CE22B711A5500F126B0 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701CE12B711A5500F126B0 /* SearchView.swift */; };
 		A5701CE42B71211000F126B0 /* TMDBSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701CE32B71211000F126B0 /* TMDBSessionManager.swift */; };
+		A5701CE62B7131A300F126B0 /* TVDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701CE52B7131A300F126B0 /* TVDetailView.swift */; };
 		A5BDFE232B691BB900095511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE222B691BB900095511 /* AppDelegate.swift */; };
 		A5BDFE252B691BB900095511 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE242B691BB900095511 /* SceneDelegate.swift */; };
 		A5BDFE272B691BB900095511 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE262B691BB900095511 /* ViewController.swift */; };
@@ -47,6 +48,7 @@
 		A5701CD22B6D3D7500F126B0 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A5701CE12B711A5500F126B0 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		A5701CE32B71211000F126B0 /* TMDBSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBSessionManager.swift; sourceTree = "<group>"; };
+		A5701CE52B7131A300F126B0 /* TVDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetailView.swift; sourceTree = "<group>"; };
 		A5BDFE1F2B691BB900095511 /* SeSACMedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5BDFE222B691BB900095511 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5BDFE242B691BB900095511 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				A5701CB42B6A14C400F126B0 /* TVDetailViewController.swift */,
+				A5701CE52B7131A300F126B0 /* TVDetailView.swift */,
 			);
 			path = TVDetail;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				A5BDFE482B6928DA00095511 /* TVTableViewCell.swift in Sources */,
 				A5BDFE232B691BB900095511 /* AppDelegate.swift in Sources */,
 				A5701CD32B6D3D7500F126B0 /* SearchViewController.swift in Sources */,
+				A5701CE62B7131A300F126B0 /* TVDetailView.swift in Sources */,
 				A5BDFE572B693E8600095511 /* TMDBModel.swift in Sources */,
 				A5BDFE552B693D2700095511 /* TMDBAPIManager.swift in Sources */,
 				A5701CC82B6C5AA300F126B0 /* TVView.swift in Sources */,

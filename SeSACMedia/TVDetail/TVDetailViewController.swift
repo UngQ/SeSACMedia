@@ -39,11 +39,6 @@ class TVDetailViewController: BaseViewController {
 	var castList: [Cast] = []
 	var recommendList: [TV] = []
 
-	let posterImageView = PosterImageView(frame: .zero)
-	let moreInfoButton = UIButton()
-	let overviewTextView = UITextView()
-	let mainTableView = UITableView()
-
 	let id = UserDefaults.standard.integer(forKey: "ID")
 
 	var tvID: Int = 0 {
@@ -58,63 +53,35 @@ class TVDetailViewController: BaseViewController {
 		}
 	}
 
+	let mainView = TVDetailView()
+
+	override func loadView() {
+		view = mainView
+	}
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
 	}
 
-	override func configureHierarchy() {
-		view.addSubview(posterImageView)
-		view.addSubview(moreInfoButton)
-		view.addSubview(overviewTextView)
-		view.addSubview(mainTableView)
-		view.addSubview(moreInfoButton)
-	}
 
-	override func configureLayout() {
-		posterImageView.snp.makeConstraints { make in
-			make.width.equalTo(UIScreen.main.bounds.width / 3)
-			make.height.equalTo(posterImageView.snp.width).multipliedBy(1.4)
-			make.top.leading.equalTo(view.safeAreaLayoutGuide).inset(8)
-		}
-		moreInfoButton.snp.makeConstraints { make in
-			make.width.height.equalTo(30)
-			make.top.equalTo(posterImageView.snp.top)
-			make.trailing.equalTo(posterImageView.snp.trailing)
-		}
 
-		overviewTextView.snp.makeConstraints { make in
-			make.leading.equalTo(posterImageView.snp.trailing).offset(8)
-			make.top.equalTo(view.safeAreaLayoutGuide).offset(8)
-			make.trailing.equalTo(view.safeAreaLayoutGuide).inset(8)
-			make.height.equalTo(posterImageView.snp.height)
-		}
 
-		mainTableView.snp.makeConstraints { make in
-			make.top.equalTo(posterImageView.snp.bottom).offset(8)
-			make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-		}
-	}
 
 	override func configureView() {
 		configureNavigationBar()
-		
 
-		mainTableView.delegate = self
-		mainTableView.dataSource = self
-		mainTableView.register(TVSubTableViewCell.self, forCellReuseIdentifier: "TableViewCellInDetail")
+		mainView.mainTableView.delegate = self
+		mainView.mainTableView.dataSource = self
+		mainView.mainTableView.register(TVSubTableViewCell.self, forCellReuseIdentifier: "TableViewCellInDetail")
 
-		mainTableView.backgroundColor = .black
-		overviewTextView.backgroundColor = .clear
-		moreInfoButton.setImage(UIImage(systemName: "info.circle"), for: .normal)
-		moreInfoButton.tintColor = .white
-		moreInfoButton.addTarget(self, action: #selector(moreInfoButtonClicked), for: .touchUpInside)
+		mainView.moreInfoButton.addTarget(self, action: #selector(moreInfoButtonClicked), for: .touchUpInside)
 
 		requestData()
 
 		TMDBAPIManager.dispatchGroup.notify(queue: .main) {
 			self.configureTVDetail()
-			self.mainTableView.reloadData()
+			self.mainView.mainTableView.reloadData()
 		}
 
 	}
@@ -142,14 +109,9 @@ class TVDetailViewController: BaseViewController {
 	func configureTVDetail() {
 		if let image = selectedTV.poster {
 			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
-			posterImageView.kf.setImage(with: url)
+			mainView.posterImageView.kf.setImage(with: url)
 		}
-		overviewTextView.text = selectedTV.overview
-		overviewTextView.textColor = .white
-		overviewTextView.font = .boldSystemFont(ofSize: 15)
-		overviewTextView.isEditable = false
-		overviewTextView.isScrollEnabled = true
-		overviewTextView.textContainerInset = .zero
+		mainView.overviewTextView.text = selectedTV.overview
 
 	}
 
@@ -168,7 +130,7 @@ extension TVDetailViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = mainTableView.dequeueReusableCell(withIdentifier: "TableViewCellInDetail", for: indexPath) as! TVSubTableViewCell
+		let cell = mainView.mainTableView.dequeueReusableCell(withIdentifier: "TableViewCellInDetail", for: indexPath) as! TVSubTableViewCell
 
 		cell.collectionView.tag = indexPath.row
 		cell.collectionView.dataSource = self
@@ -190,7 +152,7 @@ extension TVDetailViewController: UITableViewDelegate, UITableViewDataSource {
 		if indexPath.row == 0 {
 			return (UIScreen.main.bounds.width / 3 - 8) * 1.4
 		} else {
-			return mainTableView.bounds.height - (UIScreen.main.bounds.width / 3 - 8) * 1.4
+			return mainView.mainTableView.bounds.height - (UIScreen.main.bounds.width / 3 - 8) * 1.4
 		}
 	}
 
