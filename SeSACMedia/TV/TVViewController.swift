@@ -10,10 +10,10 @@ import SnapKit
 import Kingfisher
 
 enum TVListType: Int, CaseIterable {
-	case airingToday = 0
-	case trend = 1
-	case topRated = 3
-	case popular = 2
+	case airingToday
+	case trend
+	case topRated
+	case popular
 
 	var title: String {
 		switch self {

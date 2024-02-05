@@ -40,6 +40,7 @@ class TVDetailViewController: BaseViewController {
 	var recommendList: [TV] = []
 
 	let posterImageView = PosterImageView(frame: .zero)
+	let moreInfoButton = UIButton()
 	let overviewTextView = UITextView()
 	let mainTableView = UITableView()
 
@@ -64,8 +65,10 @@ class TVDetailViewController: BaseViewController {
 
 	override func configureHierarchy() {
 		view.addSubview(posterImageView)
+		view.addSubview(moreInfoButton)
 		view.addSubview(overviewTextView)
 		view.addSubview(mainTableView)
+		view.addSubview(moreInfoButton)
 	}
 
 	override func configureLayout() {
@@ -73,6 +76,11 @@ class TVDetailViewController: BaseViewController {
 			make.width.equalTo(UIScreen.main.bounds.width / 3)
 			make.height.equalTo(posterImageView.snp.width).multipliedBy(1.4)
 			make.top.leading.equalTo(view.safeAreaLayoutGuide).inset(8)
+		}
+		moreInfoButton.snp.makeConstraints { make in
+			make.width.height.equalTo(30)
+			make.top.equalTo(posterImageView.snp.top)
+			make.trailing.equalTo(posterImageView.snp.trailing)
 		}
 
 		overviewTextView.snp.makeConstraints { make in
@@ -98,6 +106,9 @@ class TVDetailViewController: BaseViewController {
 
 		mainTableView.backgroundColor = .black
 		overviewTextView.backgroundColor = .clear
+		moreInfoButton.setImage(UIImage(systemName: "info.circle"), for: .normal)
+		moreInfoButton.tintColor = .white
+		moreInfoButton.addTarget(self, action: #selector(moreInfoButtonClicked), for: .touchUpInside)
 
 		requestData()
 
@@ -106,6 +117,10 @@ class TVDetailViewController: BaseViewController {
 			self.mainTableView.reloadData()
 		}
 
+	}
+
+	@objc func moreInfoButtonClicked() {
+		print("More Info")
 	}
 
 	func requestData() {
@@ -131,7 +146,7 @@ class TVDetailViewController: BaseViewController {
 		}
 		overviewTextView.text = selectedTV.overview
 		overviewTextView.textColor = .white
-		overviewTextView.font = .boldSystemFont(ofSize: 16)
+		overviewTextView.font = .boldSystemFont(ofSize: 15)
 		overviewTextView.isEditable = false
 		overviewTextView.isScrollEnabled = true
 		overviewTextView.textContainerInset = .zero
@@ -198,15 +213,23 @@ extension TVDetailViewController: UICollectionViewDelegate, UICollectionViewData
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCellInDetail", for: indexPath) as! TVSubCollectionViewCell
 
-		cell.posterImageView.image = UIImage(systemName: "xmark")
+
 		cell.posterImageView.contentMode = .scaleAspectFit
 
+
 		if collectionView.tag == DetailInfoType.cast.rawValue {
+			cell.posterImageView.image = UIImage(systemName: "person.fill.questionmark")
 			guard let image = castList[indexPath.row].profilePath else { return cell }
 			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
 			cell.posterImageView.kf.setImage(with: url)
 			cell.posterImageView.contentMode = .scaleAspectFill
+			cell.nameLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
+
+			cell.nameLabel.textColor = .white
+			cell.nameLabel.text = castList[indexPath.row].name
+			
 		} else if collectionView.tag == DetailInfoType.recommend.rawValue {
+			cell.posterImageView.image = UIImage(systemName: "xmark")
 			guard let image = recommendList[indexPath.row].posterPath else { return cell }
 			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
 			cell.posterImageView.kf.setImage(with: url)
