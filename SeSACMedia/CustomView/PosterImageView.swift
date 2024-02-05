@@ -12,7 +12,7 @@ class PosterImageView: UIImageView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 
-		image = UIImage(systemName: "xmark")
+
 		clipsToBounds = true
 		backgroundColor = .black
 		contentMode = .scaleAspectFill

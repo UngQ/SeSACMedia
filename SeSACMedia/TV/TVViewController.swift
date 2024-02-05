@@ -64,13 +64,13 @@ class TVViewController: BaseViewController {
 
 	static var mainTV: TV = TV(id: 0, name: "", posterPath: "")
 
-	var tvID: Int = 0 {
+	static var tvID: Int = 0 {
 		didSet {
 			UserDefaults.standard.setValue(tvID, forKey: "ID")
 		}
 	}
 
-	var tvTitle: String = "" {
+	static var tvTitle: String = "" {
 		didSet {
 			UserDefaults.standard.setValue(tvTitle, forKey: "Title")
 		}
@@ -177,8 +177,8 @@ extension TVViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.row == 0 {
 
-			tvID = TVViewController.mainTV.id
-			tvTitle = TVViewController.mainTV.name
+			TVViewController.tvID = TVViewController.mainTV.id
+			TVViewController.tvTitle = TVViewController.mainTV.name
 			navigationController?.pushViewController(TVDetailViewController(), animated: true)
 		}
 	}
@@ -221,8 +221,8 @@ extension TVViewController: UICollectionViewDataSource, UICollectionViewDelegate
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
 		if let listType = TVListType(rawValue: collectionView.tag) {
-			tvID = listType.list[indexPath.row].id
-			tvTitle = listType.list[indexPath.row].name
+			TVViewController.tvID = listType.list[indexPath.row].id
+			TVViewController.tvTitle = listType.list[indexPath.row].name
 		}
 
 		let vc = TVDetailViewController()

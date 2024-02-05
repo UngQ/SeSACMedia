@@ -23,23 +23,6 @@ enum DetailInfoType: Int, CaseIterable {
 		}
 	}
 
-	var castList: [Cast] {
-		return TVDetailViewController.castList
-	}
-
-	var recommendList: [TV] {
-		return TVDetailViewController.recommendList
-	}
-
-	var count: Int {
-		switch self {
-		case .cast:
-			return TVDetailViewController.castList.count
-		case .recommend:
-			return TVDetailViewController.recommendList.count
-		}
-	}
-
 	var layout: UICollectionViewLayout {
 		switch self {
 		case .cast:
@@ -48,49 +31,118 @@ enum DetailInfoType: Int, CaseIterable {
 			return TVSubTableViewCell.configureCollectionViewLayout(size: CGSize(width: UIScreen.main.bounds.width / 3 - 8  , height: (UIScreen.main.bounds.width / 3 - 8) * 1.4), direction: .vertical)
 		}
 	}
-
-	var height: CGFloat {
-		switch self {
-		case .cast:
-			return (UIScreen.main.bounds.width / 3 - 8) * 1.4
-		case .recommend:
-			let firstRowHeight = (UIScreen.main.bounds.width / 3 - 8) * 1.4
-			let tableViewHeight = TVDetailView.mainTableView.bounds.height
-			let height = tableViewHeight - firstRowHeight
-
-			return height
-		}
-	}
 }
 
 class TVDetailViewController: BaseViewController {
 
-	static var selectedTV: DetailTVModel = DetailTVModel(id: 0, name: "", overview: "", seasons: nil, poster: "", firstAirDate: "", lastAirDate: "", voteAverage: 0)
-	static var castList: [Cast] = []
-	static var recommendList: [TV] = []
+	var selectedTV: DetailTVModel = DetailTVModel(id: 0, name: "", overview: "", seasons: nil, poster: "", firstAirDate: "", lastAirDate: "", voteAverage: 0)
+	var castList: [Cast] = []
+	var recommendList: [TV] = []
 
-	let mainView = TVDetailView()
+	let posterImageView = PosterImageView(frame: .zero)
+	let overviewTextView = UITextView()
+	let mainTableView = UITableView()
 
-	override func loadView() {
-		view = mainView
+	let id = UserDefaults.standard.integer(forKey: "ID")
+
+	var tvID: Int = 0 {
+		didSet {
+			UserDefaults.standard.setValue(tvID, forKey: "ID")
+		}
+	}
+
+	var tvTitle: String = "" {
+		didSet {
+			UserDefaults.standard.setValue(tvTitle, forKey: "Title")
+		}
 	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+
+	}
+
+	override func configureHierarchy() {
+		view.addSubview(posterImageView)
+		view.addSubview(overviewTextView)
+		view.addSubview(mainTableView)
+	}
+
+	override func configureLayout() {
+		posterImageView.snp.makeConstraints { make in
+			make.width.equalTo(UIScreen.main.bounds.width / 3)
+			make.height.equalTo(posterImageView.snp.width).multipliedBy(1.4)
+			make.top.leading.equalTo(view.safeAreaLayoutGuide).inset(8)
+		}
+
+		overviewTextView.snp.makeConstraints { make in
+			make.leading.equalTo(posterImageView.snp.trailing).offset(8)
+			make.top.equalTo(view.safeAreaLayoutGuide).offset(8)
+			make.trailing.equalTo(view.safeAreaLayoutGuide).inset(8)
+			make.height.equalTo(posterImageView.snp.height)
+		}
+
+		mainTableView.snp.makeConstraints { make in
+			make.top.equalTo(posterImageView.snp.bottom).offset(8)
+			make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+		}
 	}
 
 	override func configureView() {
 		configureNavigationBar()
+		
 
-		TVDetailView.mainTableView.delegate = self
-		TVDetailView.mainTableView.dataSource = self
-		TVDetailView.mainTableView.register(TVSubTableViewCell.self, forCellReuseIdentifier: "TableViewCellInDetail")
+		mainTableView.delegate = self
+		mainTableView.dataSource = self
+		mainTableView.register(TVSubTableViewCell.self, forCellReuseIdentifier: "TableViewCellInDetail")
+
+		mainTableView.backgroundColor = .black
+		overviewTextView.backgroundColor = .clear
+
+		requestData()
+
+		TMDBAPIManager.dispatchGroup.notify(queue: .main) {
+			self.configureTVDetail()
+			self.mainTableView.reloadData()
+		}
+
+	}
+
+	func requestData() {
+
+		TMDBAPIManager.shared.request(type: DetailTVModel.self, api: .detailInfo(id: id)) {
+			self.selectedTV = $0
+		}
+
+		TMDBAPIManager.shared.request(type: CastModel.self, api: .cast(id: id)) {
+			self.castList = $0.cast
+		}
+
+		TMDBAPIManager.shared.request(type: TVModel.self, api: .recommend(id: id)) {
+			self.recommendList = $0.results ?? []
+		}
+
+	}
+
+	func configureTVDetail() {
+		if let image = selectedTV.poster {
+			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
+			posterImageView.kf.setImage(with: url)
+		}
+		overviewTextView.text = selectedTV.overview
+		overviewTextView.textColor = .white
+		overviewTextView.font = .boldSystemFont(ofSize: 16)
+		overviewTextView.isEditable = false
+		overviewTextView.isScrollEnabled = true
+		overviewTextView.textContainerInset = .zero
 
 	}
 
 	func configureNavigationBar() {
 		navigationItem.title = UserDefaults.standard.string(forKey: "Title")
 		navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+		let backBarButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+		navigationItem.backBarButtonItem = backBarButton
 	}
 }
 
@@ -101,7 +153,7 @@ extension TVDetailViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = TVDetailView.mainTableView.dequeueReusableCell(withIdentifier: "TableViewCellInDetail", for: indexPath) as! TVSubTableViewCell
+		let cell = mainTableView.dequeueReusableCell(withIdentifier: "TableViewCellInDetail", for: indexPath) as! TVSubTableViewCell
 
 		cell.collectionView.tag = indexPath.row
 		cell.collectionView.dataSource = self
@@ -120,17 +172,27 @@ extension TVDetailViewController: UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-		guard let listType = DetailInfoType(rawValue: indexPath.row) else { return 0 }
-		return listType.height
+		if indexPath.row == 0 {
+			return (UIScreen.main.bounds.width / 3 - 8) * 1.4
+		} else {
+			return mainTableView.bounds.height - (UIScreen.main.bounds.width / 3 - 8) * 1.4
+		}
 	}
+
+
 }
 
 extension TVDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		
-		guard let listType = DetailInfoType(rawValue: collectionView.tag) else { return 0 }
-		return listType.count
+
+
+		if collectionView.tag == 0 {
+			return castList.count
+		} else {
+			return recommendList.count
+		}
+
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -140,17 +202,29 @@ extension TVDetailViewController: UICollectionViewDelegate, UICollectionViewData
 		cell.posterImageView.contentMode = .scaleAspectFit
 
 		if collectionView.tag == DetailInfoType.cast.rawValue {
-			guard let image = TVDetailViewController.castList[indexPath.row].profilePath else { return cell }
+			guard let image = castList[indexPath.row].profilePath else { return cell }
 			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
 			cell.posterImageView.kf.setImage(with: url)
 			cell.posterImageView.contentMode = .scaleAspectFill
 		} else if collectionView.tag == DetailInfoType.recommend.rawValue {
-			guard let image = TVDetailViewController.recommendList[indexPath.row].posterPath else { return cell }
+			guard let image = recommendList[indexPath.row].posterPath else { return cell }
 			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")
 			cell.posterImageView.kf.setImage(with: url)
 			cell.posterImageView.contentMode = .scaleAspectFill
 		}
 
 		return cell
+	}
+
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+		if collectionView.tag == 1 {
+			
+			tvID = recommendList[indexPath.row].id
+			tvTitle = recommendList[indexPath.row].name
+
+			let vc = TVDetailViewController()
+			navigationController?.pushViewController(vc, animated: true)
+		}
 	}
 }

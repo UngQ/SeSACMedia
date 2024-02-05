@@ -13,7 +13,6 @@
 		A5701CC42B6B76B300F126B0 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701CC32B6B76B300F126B0 /* TMDBAPI.swift */; };
 		A5701CC62B6C59E700F126B0 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701CC52B6C59E700F126B0 /* BaseView.swift */; };
 		A5701CC82B6C5AA300F126B0 /* TVView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701CC72B6C5AA300F126B0 /* TVView.swift */; };
-		A5701CCA2B6C602000F126B0 /* TVDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701CC92B6C602000F126B0 /* TVDetailView.swift */; };
 		A5701CD32B6D3D7500F126B0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701CD22B6D3D7500F126B0 /* SearchViewController.swift */; };
 		A5701CDC2B6E18FA00F126B0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A5701CDB2B6E18FA00F126B0 /* SnapKit */; };
 		A5701CDE2B6E18FA00F126B0 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = A5701CDD2B6E18FA00F126B0 /* SnapKit-Dynamic */; };
@@ -43,7 +42,6 @@
 		A5701CC32B6B76B300F126B0 /* TMDBAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPI.swift; sourceTree = "<group>"; };
 		A5701CC52B6C59E700F126B0 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		A5701CC72B6C5AA300F126B0 /* TVView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVView.swift; sourceTree = "<group>"; };
-		A5701CC92B6C602000F126B0 /* TVDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetailView.swift; sourceTree = "<group>"; };
 		A5701CD22B6D3D7500F126B0 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A5BDFE1F2B691BB900095511 /* SeSACMedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5BDFE222B691BB900095511 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,7 +81,6 @@
 			isa = PBXGroup;
 			children = (
 				A5701CB42B6A14C400F126B0 /* TVDetailViewController.swift */,
-				A5701CC92B6C602000F126B0 /* TVDetailView.swift */,
 			);
 			path = TVDetail;
 			sourceTree = "<group>";
@@ -267,7 +264,6 @@
 				A5701CC82B6C5AA300F126B0 /* TVView.swift in Sources */,
 				A5BDFE4C2B69320800095511 /* TVSubCollectionViewCell.swift in Sources */,
 				A5BDFE382B69219000095511 /* TVViewController.swift in Sources */,
-				A5701CCA2B6C602000F126B0 /* TVDetailView.swift in Sources */,
 				A5701CC42B6B76B300F126B0 /* TMDBAPI.swift in Sources */,
 				A5701CB52B6A14C400F126B0 /* TVDetailViewController.swift in Sources */,
 				A5BDFE4A2B692D6600095511 /* TVSubTableViewCell.swift in Sources */,
