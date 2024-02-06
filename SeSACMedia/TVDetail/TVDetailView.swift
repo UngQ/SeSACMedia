@@ -62,7 +62,7 @@ class TVDetailView: BaseView {
 		overviewTextView.isEditable = false
 		overviewTextView.isScrollEnabled = true
 		overviewTextView.textContainerInset = .zero
-
+	
 
 	}
 }

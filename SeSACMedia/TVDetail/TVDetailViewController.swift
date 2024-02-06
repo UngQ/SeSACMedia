@@ -88,6 +88,9 @@ class TVDetailViewController: BaseViewController {
 
 	@objc func moreInfoButtonClicked() {
 		print("More Info")
+		let vc = SeasonInfoViewController()
+
+		present(SeasonInfoViewController(), animated: true)
 	}
 
 	func requestData() {

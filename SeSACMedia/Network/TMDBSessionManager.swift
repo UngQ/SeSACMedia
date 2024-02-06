@@ -17,6 +17,7 @@ class TMDBSessionManager {
 	func fetchSearchingMovie(query: String, completionHandler: @escaping (TVModel?, Error?) -> Void) {
 		var url = URLRequest(url: TMDBAPI.search(query: query).endPoint)
 		url.httpMethod = "GET"
+
 		url.addValue(APIKey.tmdb, forHTTPHeaderField: "Authorization")
 
 
