@@ -11,7 +11,7 @@ import SnapKit
 class ProfileLabelAndTextFieldView: BaseView {
 
 	let keyLabel = UILabel()
-	let valueLabel = UILabel()
+	var valueLabel = UILabel()
 	let modifyButton = UIButton()
 
 
@@ -44,7 +44,8 @@ class ProfileLabelAndTextFieldView: BaseView {
 		}
 
 		modifyButton.snp.makeConstraints { make in
-			make.top.bottom.trailing.equalToSuperview().offset(-4)
+			make.top.equalToSuperview().offset(4)
+			make.bottom.trailing.equalToSuperview().offset(-4)
 			make.leading.equalTo(valueLabel.snp.trailing).offset(4)
 			make.size.equalTo(40)
 		}
