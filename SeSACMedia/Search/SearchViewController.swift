@@ -37,14 +37,12 @@ class SearchViewController: BaseViewController {
 		let backBarButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
 		navigationItem.backBarButtonItem = backBarButton
 
-		let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapView))
-//		mainView.searchCollectionView.addGestureRecognizer(tapGestureRecognizer)
 
 		mainView.searchBar.delegate = self
 
 		mainView.searchCollectionView.delegate = self
 		mainView.searchCollectionView.dataSource = self
-		mainView.searchCollectionView.register(TVSubCollectionViewCell.self, forCellWithReuseIdentifier: "Search")
+		mainView.searchCollectionView.register(TVSubCollectionViewCell.self, forCellWithReuseIdentifier: TVSubCollectionViewCell.identifier)
 
 	}
 
@@ -80,7 +78,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Search", for: indexPath) as! TVSubCollectionViewCell
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TVSubCollectionViewCell.identifier, for: indexPath) as! TVSubCollectionViewCell
 
 		if let image = list[indexPath.row].posterPath {
 			let url = URL(string: "https://image.tmdb.org/t/p/w500\(image)")

@@ -96,8 +96,8 @@ class TVViewController: BaseViewController {
 	func configureTableView() {
 		mainView.mainTableView.delegate = self
 		mainView.mainTableView.dataSource = self
-		mainView.mainTableView.register(TVTableViewCell.self, forCellReuseIdentifier: "TVTableViewCell")
-		mainView.mainTableView.register(TVSubTableViewCell.self, forCellReuseIdentifier: "TVSubTableViewCell")
+		mainView.mainTableView.register(TVTableViewCell.self, forCellReuseIdentifier: TVTableViewCell.identifier)
+		mainView.mainTableView.register(TVSubTableViewCell.self, forCellReuseIdentifier: TVSubTableViewCell.identifier)
 		mainView.mainTableView.backgroundColor = .black
 	}
 
@@ -140,7 +140,7 @@ extension TVViewController: UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == 0 {
-			let cell = tableView.dequeueReusableCell(withIdentifier: "TVTableViewCell", for: indexPath) as! TVTableViewCell
+			let cell = tableView.dequeueReusableCell(withIdentifier: TVTableViewCell.identifier, for: indexPath) as! TVTableViewCell
 			cell.selectionStyle = .none
 			
 			guard let main = TVListType(rawValue: 0)?.list.randomElement() else { return cell }
@@ -157,11 +157,11 @@ extension TVViewController: UITableViewDelegate, UITableViewDataSource {
 
 		} else {
 
-			let cell = tableView.dequeueReusableCell(withIdentifier: "TVSubTableViewCell", for: indexPath) as! TVSubTableViewCell
+			let cell = tableView.dequeueReusableCell(withIdentifier: TVSubTableViewCell.identifier, for: indexPath) as! TVSubTableViewCell
 			cell.selectionStyle = .none
 			cell.collectionView.dataSource = self
 			cell.collectionView.delegate = self
-			cell.collectionView.register(TVSubCollectionViewCell.self, forCellWithReuseIdentifier: "TVSubCollectionViewCell")
+			cell.collectionView.register(TVSubCollectionViewCell.self, forCellWithReuseIdentifier: TVSubCollectionViewCell.identifier)
 			cell.collectionView.tag = indexPath.row
 
 			if let listType = TVListType(rawValue: cell.collectionView.tag) {
@@ -196,7 +196,7 @@ extension TVViewController: UICollectionViewDataSource, UICollectionViewDelegate
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TVSubCollectionViewCell", for: indexPath) as! TVSubCollectionViewCell
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TVSubCollectionViewCell.identifier, for: indexPath) as! TVSubCollectionViewCell
 
 		if let listType = TVListType(rawValue: collectionView.tag) {
 			configureCollectionViewCell(cell: cell, list: listType.list, item: indexPath.row)

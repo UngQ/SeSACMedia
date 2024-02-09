@@ -10,12 +10,14 @@ import SnapKit
 
 class ProfileView: BaseView {
 	
-	let profileImageView = UIImageView()
+	let profileImageView = PosterImageView(frame: .zero)
 
 	var testView: [ProfileLabelAndTextFieldView] = []
 
+	let tableView = UITableView()
+
 	override init(frame: CGRect) {
-		for i in 0...ProfileInfoType.allCases.count - 1 {
+		for _ in 0...ProfileInfoType.allCases.count - 1 {
 			testView.append(ProfileLabelAndTextFieldView())
 		}
 
@@ -25,9 +27,12 @@ class ProfileView: BaseView {
 	override func configureHierarchy() {
 		addSubview(profileImageView)
 
+
 		for i in 0...testView.count - 1 {
 			addSubview(testView[i])
 		}
+
+		addSubview(tableView)
 	}
 
 	override func configureLayout() {
@@ -35,7 +40,7 @@ class ProfileView: BaseView {
 		profileImageView.snp.makeConstraints { make in
 			make.centerX.equalToSuperview()
 			make.top.equalTo(safeAreaLayoutGuide)
-			make.size.equalTo(80)
+			make.size.equalTo(120)
 		}
 
 		testView[0].snp.makeConstraints { make in
@@ -51,14 +56,24 @@ class ProfileView: BaseView {
 				make.height.equalTo(40)
 			}
 		}
+
+		let lastIndex = testView.endIndex
+		tableView.snp.makeConstraints { make in
+			make.top.equalTo(testView[lastIndex-1].snp.bottom).offset(50)
+			make.bottom.horizontalEdges.equalToSuperview()
+		}
 	}
 
 	override func configureView() {
+
+		profileImageView.backgroundColor = .green
 
 		for i in 0...ProfileInfoType.allCases.count - 1 {
 			testView[i].keyLabel.text = ProfileInfoType.allCases[i].title
 			testView[i].modifyButton.tag = i
 		}
+
+		tableView.backgroundColor = .green
 	}
 
 	required init?(coder: NSCoder) {
