@@ -99,3 +99,13 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
 
 }
+//
+//
+//extension SearchViewController: UICollectionViewDataSourcePrefetching {
+////	
+////	func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+////		<#code#>
+////	}
+//	
+//
+//}

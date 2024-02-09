@@ -38,6 +38,7 @@ class TVDetailViewController: BaseViewController {
 	var selectedTV: DetailTVModel = DetailTVModel(id: 0, name: "", overview: "", seasons: nil, poster: "", firstAirDate: "", lastAirDate: "", voteAverage: 0)
 	var castList: [Cast] = []
 	var recommendList: [TV] = []
+	var videoData: [Result] = []
 
 	let id = UserDefaults.standard.integer(forKey: "ID")
 
@@ -76,6 +77,7 @@ class TVDetailViewController: BaseViewController {
 		mainView.mainTableView.register(TVSubTableViewCell.self, forCellReuseIdentifier: "TableViewCellInDetail")
 
 		mainView.moreInfoButton.addTarget(self, action: #selector(moreInfoButtonClicked), for: .touchUpInside)
+		mainView.videoPlayButton.addTarget(self, action: #selector(videoPlayButtonClicked), for: .touchUpInside)
 
 		requestData()
 
@@ -87,10 +89,11 @@ class TVDetailViewController: BaseViewController {
 	}
 
 	@objc func moreInfoButtonClicked() {
-		print("More Info")
-		let vc = SeasonInfoViewController()
-
 		present(SeasonInfoViewController(), animated: true)
+	}
+
+	@objc func videoPlayButtonClicked() {
+		present(VideoViewController(), animated: true)
 	}
 
 	func requestData() {
@@ -107,6 +110,11 @@ class TVDetailViewController: BaseViewController {
 			self.recommendList = $0.results ?? []
 		}
 
+		TMDBAPIManager.shared.request(type: VideoModel.self, api: .video(id: id)) {
+			self.videoData = $0.results ?? []
+			print(self.videoData)
+		}
+
 	}
 
 	func configureTVDetail() {
@@ -115,6 +123,11 @@ class TVDetailViewController: BaseViewController {
 			mainView.posterImageView.kf.setImage(with: url)
 		}
 		mainView.overviewTextView.text = selectedTV.overview
+
+		if videoData != [] {
+			mainView.videoPlayButton.isHidden = false
+			UserDefaults.standard.setValue(videoData[0].key, forKey: "Key")
+		}
 
 	}
 

@@ -20,6 +20,8 @@ class TMDBSessionManager {
 
 		url.addValue(APIKey.tmdb, forHTTPHeaderField: "Authorization")
 
+		
+
 
 			URLSession.shared.dataTask(with: url) { data, response, error in
 				DispatchQueue.main.async {

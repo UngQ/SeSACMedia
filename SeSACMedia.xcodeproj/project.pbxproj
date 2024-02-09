@@ -33,6 +33,9 @@
 		A5701DB62B74B65100F126B0 /* ProfileImageSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701DB52B74B65100F126B0 /* ProfileImageSearchView.swift */; };
 		A5701DB82B74B70200F126B0 /* ProfileImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701DB72B74B70200F126B0 /* ProfileImageCollectionViewCell.swift */; };
 		A5701DBA2B7601AA00F126B0 /* IdentifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701DB92B7601AA00F126B0 /* IdentifierProtocol.swift */; };
+		A5701DBC2B7628DC00F126B0 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701DBB2B7628DC00F126B0 /* VideoViewController.swift */; };
+		A5701DBE2B76295500F126B0 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701DBD2B76295500F126B0 /* VideoView.swift */; };
+		A5701DC02B76300E00F126B0 /* HalfSizePresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5701DBF2B76300E00F126B0 /* HalfSizePresentationController.swift */; };
 		A5BDFE232B691BB900095511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE222B691BB900095511 /* AppDelegate.swift */; };
 		A5BDFE252B691BB900095511 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE242B691BB900095511 /* SceneDelegate.swift */; };
 		A5BDFE272B691BB900095511 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BDFE262B691BB900095511 /* ViewController.swift */; };
@@ -77,6 +80,9 @@
 		A5701DB52B74B65100F126B0 /* ProfileImageSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageSearchView.swift; sourceTree = "<group>"; };
 		A5701DB72B74B70200F126B0 /* ProfileImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		A5701DB92B7601AA00F126B0 /* IdentifierProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierProtocol.swift; sourceTree = "<group>"; };
+		A5701DBB2B7628DC00F126B0 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		A5701DBD2B76295500F126B0 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
+		A5701DBF2B76300E00F126B0 /* HalfSizePresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfSizePresentationController.swift; sourceTree = "<group>"; };
 		A5BDFE1F2B691BB900095511 /* SeSACMedia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMedia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5BDFE222B691BB900095511 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5BDFE242B691BB900095511 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +125,8 @@
 				A5701CE92B7210AA00F126B0 /* SeasonInfoViewController.swift */,
 				A5701CEB2B7210BD00F126B0 /* SeasonInfoView.swift */,
 				A5701CED2B7213DB00F126B0 /* SeasonAndEpisodeTableViewCell.swift */,
+				A5701DBB2B7628DC00F126B0 /* VideoViewController.swift */,
+				A5701DBD2B76295500F126B0 /* VideoView.swift */,
 			);
 			path = TVDetail;
 			sourceTree = "<group>";
@@ -177,13 +185,13 @@
 		A5BDFE212B691BB900095511 /* SeSACMedia */ = {
 			isa = PBXGroup;
 			children = (
-				A5701DA22B739A3300F126B0 /* Profile */,
 				A5701CB62B6A283800F126B0 /* Base */,
 				A5BDFE442B6924B700095511 /* CustomView */,
 				A5BDFE512B693BE000095511 /* Network */,
 				A5BDFE362B691BD200095511 /* TV */,
 				A5701CD12B6D3D5F00F126B0 /* Search */,
 				A5701CB32B6A132800F126B0 /* TVDetail */,
+				A5701DA22B739A3300F126B0 /* Profile */,
 				A5BDFE222B691BB900095511 /* AppDelegate.swift */,
 				A5BDFE242B691BB900095511 /* SceneDelegate.swift */,
 				A5BDFE262B691BB900095511 /* ViewController.swift */,
@@ -212,6 +220,7 @@
 			children = (
 				A5BDFE452B6924DF00095511 /* PosterImageView.swift */,
 				A5701DA72B739D2F00F126B0 /* ProfileLabelAndTextFieldView.swift */,
+				A5701DBF2B76300E00F126B0 /* HalfSizePresentationController.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -315,14 +324,17 @@
 			files = (
 				A5701CB82B6A284900F126B0 /* BaseViewController.swift in Sources */,
 				A5701CEC2B7210BD00F126B0 /* SeasonInfoView.swift in Sources */,
+				A5701DBC2B7628DC00F126B0 /* VideoViewController.swift in Sources */,
 				A5701CE22B711A5500F126B0 /* SearchView.swift in Sources */,
 				A5BDFE272B691BB900095511 /* ViewController.swift in Sources */,
 				A5BDFE482B6928DA00095511 /* TVTableViewCell.swift in Sources */,
 				A5BDFE232B691BB900095511 /* AppDelegate.swift in Sources */,
 				A5701CEA2B7210AA00F126B0 /* SeasonInfoViewController.swift in Sources */,
 				A5701CD32B6D3D7500F126B0 /* SearchViewController.swift in Sources */,
+				A5701DBE2B76295500F126B0 /* VideoView.swift in Sources */,
 				A5701CE62B7131A300F126B0 /* TVDetailView.swift in Sources */,
 				A5BDFE572B693E8600095511 /* TMDBModel.swift in Sources */,
+				A5701DC02B76300E00F126B0 /* HalfSizePresentationController.swift in Sources */,
 				A5701DB02B74AA6400F126B0 /* ProfileImageSearchViewController.swift in Sources */,
 				A5BDFE552B693D2700095511 /* TMDBAPIManager.swift in Sources */,
 				A5701CC82B6C5AA300F126B0 /* TVView.swift in Sources */,

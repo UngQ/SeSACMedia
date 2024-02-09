@@ -13,6 +13,7 @@ class TVDetailView: BaseView {
 
 	let posterImageView = PosterImageView(frame: .zero)
 	let moreInfoButton = UIButton()
+	let videoPlayButton = UIButton()
 	let overviewTextView = UITextView()
 	let mainTableView = UITableView()
 
@@ -21,6 +22,7 @@ class TVDetailView: BaseView {
 		addSubview(posterImageView)
 		addSubview(moreInfoButton)
 		addSubview(overviewTextView)
+		addSubview(videoPlayButton)
 		addSubview(mainTableView)
 		addSubview(moreInfoButton)
 	}
@@ -32,9 +34,16 @@ class TVDetailView: BaseView {
 			make.top.leading.equalTo(safeAreaLayoutGuide).inset(8)
 		}
 		moreInfoButton.snp.makeConstraints { make in
-			make.width.height.equalTo(30)
-			make.top.equalTo(posterImageView.snp.top)
-			make.trailing.equalTo(posterImageView.snp.trailing)
+			make.width.height.equalTo(24)
+			make.top.equalTo(posterImageView.snp.top).offset(4)
+			make.trailing.equalTo(posterImageView.snp.trailing).offset(-4)
+		}
+
+		videoPlayButton.snp.makeConstraints { make in
+			make.width.size.equalTo(60)
+			make.centerX.centerY.equalTo(posterImageView)
+//			make.bottom.equalTo(posterImageView.snp.bottom)
+//			make.trailing.equalTo(posterImageView.snp.trailing)
 		}
 
 		overviewTextView.snp.makeConstraints { make in
@@ -52,17 +61,23 @@ class TVDetailView: BaseView {
 
 	override func configureView() {
 		mainTableView.backgroundColor = .black
-		overviewTextView.backgroundColor = .clear
-		moreInfoButton.setImage(UIImage(systemName: "info.circle"), for: .normal)
+
+		moreInfoButton.setBackgroundImage(UIImage(systemName: "info.circle"), for: .normal)
 		moreInfoButton.tintColor = .white
 
-
+		overviewTextView.backgroundColor = .clear
 		overviewTextView.textColor = .white
 		overviewTextView.font = .boldSystemFont(ofSize: 15)
 		overviewTextView.isEditable = false
 		overviewTextView.isScrollEnabled = true
 		overviewTextView.textContainerInset = .zero
-	
+
+
+		videoPlayButton.setBackgroundImage(UIImage(systemName: "play.square.fill"), for: .normal)
+		videoPlayButton.layer.opacity = 0.4
+		videoPlayButton.tintColor = .white
+		videoPlayButton.isHidden = true
+
 
 	}
 }
