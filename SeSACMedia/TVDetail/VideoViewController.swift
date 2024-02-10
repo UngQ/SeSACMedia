@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 
 
-class VideoViewController: BaseViewController {
+final class VideoViewController: BaseViewController {
 
 	let key = UserDefaults.standard.string(forKey: "Key")!
 

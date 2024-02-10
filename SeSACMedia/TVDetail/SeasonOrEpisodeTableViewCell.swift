@@ -8,11 +8,13 @@
 import UIKit
 import SnapKit
 
-class SeasonAndEpisodeTableViewCell: UITableViewCell {
+final class SeasonOrEpisodeTableViewCell: UITableViewCell {
 
 	let posterImageView = PosterImageView(frame: .zero)
 	let titleLabel = UILabel()
-	let overviewTextView = UITextView()
+	let overviewTextView = UILabel()
+
+	var seasonNumber: Int = 0
 
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -39,14 +41,14 @@ class SeasonAndEpisodeTableViewCell: UITableViewCell {
 		titleLabel.snp.makeConstraints { make in
 			make.top.trailing.equalTo(safeAreaLayoutGuide).offset(8)
 			make.leading.equalTo(posterImageView.snp.trailing).offset(4)
-			make.height.greaterThanOrEqualTo(10)
+			make.height.equalTo(20)
 
 		}
 
 		overviewTextView.snp.makeConstraints { make in
 			make.top.equalTo(titleLabel.snp.bottom).offset(2)
 			make.leading.equalTo(posterImageView.snp.trailing).offset(4)
-			make.trailing.bottom.equalTo(safeAreaLayoutGuide).offset(-8)
+			make.trailing.bottom.lessThanOrEqualTo(safeAreaLayoutGuide).offset(-8)
 
 		}
 
@@ -63,12 +65,8 @@ class SeasonAndEpisodeTableViewCell: UITableViewCell {
 
 		overviewTextView.backgroundColor = .clear
 		overviewTextView.textColor = .white
-		overviewTextView.font = .boldSystemFont(ofSize: 15)
-
-		overviewTextView.isEditable = false
-		overviewTextView.isScrollEnabled = true
-		overviewTextView.textContainerInset = .zero
-		overviewTextView.textContainer.lineFragmentPadding = 0
+		overviewTextView.font = .boldSystemFont(ofSize: 13)
+		overviewTextView.numberOfLines = 0
 	}
 
 

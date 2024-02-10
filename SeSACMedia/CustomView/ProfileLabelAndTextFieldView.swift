@@ -57,12 +57,12 @@ class ProfileLabelAndTextFieldView: BaseView {
 		keyLabel.backgroundColor = .clear
 		keyLabel.font = .boldSystemFont(ofSize: 14)
 
-		valueLabel.text = "text"
 		valueLabel.textColor = .white
 		valueLabel.backgroundColor = .clear
 
-		modifyButton.backgroundColor = .brown
+		
 		modifyButton.setImage(UIImage(systemName: "pencil"), for: .normal)
+		modifyButton.tintColor = .white
 	}
 
 	required init?(coder: NSCoder) {

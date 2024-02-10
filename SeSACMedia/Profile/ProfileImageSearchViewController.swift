@@ -10,7 +10,7 @@ import SnapKit
 import Alamofire
 import Kingfisher
 
-class ProfileImageSearchViewController: BaseViewController {
+final class ProfileImageSearchViewController: BaseViewController {
 
 	let mainView = ProfileImageSearchView()
 

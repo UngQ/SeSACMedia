@@ -8,24 +8,24 @@
 import UIKit
 import SnapKit
 
-class SeasonInfoView: BaseView {
+final class SeasonOrEpisodeInfoView: BaseView {
 
-	let seasonTableView = UITableView()
+	let seasonOrEpisodeTableView = UITableView()
 
 	
 	override func configureHierarchy() {
-		addSubview(seasonTableView)
+		addSubview(seasonOrEpisodeTableView)
 	}
 
 	override func configureLayout() {
-		seasonTableView.snp.makeConstraints { make in
+		seasonOrEpisodeTableView.snp.makeConstraints { make in
 			make.edges.equalTo(safeAreaLayoutGuide)
 		}
 	}
 
 
 	override func configureView() {
-		seasonTableView.backgroundColor = .darkGray
+		seasonOrEpisodeTableView.backgroundColor = .darkGray
 
 	}
 }

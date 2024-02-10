@@ -33,7 +33,7 @@ enum DetailInfoType: Int, CaseIterable {
 	}
 }
 
-class TVDetailViewController: BaseViewController {
+final class TVDetailViewController: BaseViewController {
 
 	var selectedTV: DetailTVModel = DetailTVModel(id: 0, name: "", overview: "", seasons: nil, poster: "", firstAirDate: "", lastAirDate: "", voteAverage: 0)
 	var castList: [Cast] = []
@@ -89,10 +89,13 @@ class TVDetailViewController: BaseViewController {
 	}
 
 	@objc func moreInfoButtonClicked() {
-		present(SeasonInfoViewController(), animated: true)
+		let vc = SeasonOrEpisodeInfoViewController()
+		let nav = UINavigationController(rootViewController: vc)
+		present(nav, animated: true)
+		print(id)
 	}
 
-	@objc func videoPlayButtonClicked() {
+	@objc func videoPlayButtonClicked(sender: UIButton) {
 		present(VideoViewController(), animated: true)
 	}
 
@@ -112,7 +115,6 @@ class TVDetailViewController: BaseViewController {
 
 		TMDBAPIManager.shared.request(type: VideoModel.self, api: .video(id: id)) {
 			self.videoData = $0.results ?? []
-			print(self.videoData)
 		}
 
 	}

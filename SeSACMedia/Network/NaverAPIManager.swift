@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 
-class NaverAPIManager {
+final class NaverAPIManager {
 
 	static let shared = NaverAPIManager()
 

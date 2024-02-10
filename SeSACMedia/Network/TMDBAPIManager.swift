@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-class TMDBAPIManager {
+final class TMDBAPIManager {
 
 	static let shared = TMDBAPIManager()
 	static let dispatchGroup = DispatchGroup()
@@ -27,7 +27,7 @@ class TMDBAPIManager {
 			case .success(let success):
 				completionHandler(success)
 			case .failure(let failure):
-				dump(failure)
+				return
 			}
 			TMDBAPIManager.dispatchGroup.leave()
 		}

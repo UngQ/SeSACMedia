@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 import SnapKit
 
-class VideoView: BaseView {
+final class VideoView: BaseView {
 
 	let webView = WKWebView()
 

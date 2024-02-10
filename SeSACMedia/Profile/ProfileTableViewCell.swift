@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ProfileTableViewCell: UITableViewCell {
+final class ProfileTableViewCell: UITableViewCell {
 
 	var testView = ProfileLabelAndTextFieldView()
 

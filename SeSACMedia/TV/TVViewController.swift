@@ -55,7 +55,7 @@ enum TVListType: Int, CaseIterable {
 	}
 }
 
-class TVViewController: BaseViewController {
+final class TVViewController: BaseViewController {
 
 	static var airingTodayList: [TV] = []
 	static var trendList: [TV] = []
@@ -84,8 +84,6 @@ class TVViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
     }
 
 	override func configureView() {

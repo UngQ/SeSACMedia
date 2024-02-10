@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ProfileImageCollectionViewCell: UICollectionViewCell {
+final class ProfileImageCollectionViewCell: UICollectionViewCell {
 
 	let imageView = PosterImageView(frame: .zero)
 

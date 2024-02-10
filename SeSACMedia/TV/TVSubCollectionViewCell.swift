@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TVSubCollectionViewCell: UICollectionViewCell {
+final class TVSubCollectionViewCell: UICollectionViewCell {
 
 	let posterImageView = PosterImageView(frame: .zero)
 	let nameLabel = UILabel()
@@ -28,7 +28,7 @@ class TVSubCollectionViewCell: UICollectionViewCell {
 		contentView.addSubview(nameLabel)
 	}
 
-	func configureLayout() {
+	private func configureLayout() {
 		posterImageView.snp.makeConstraints { make in
 			make.edges.equalToSuperview()
 		}
@@ -53,3 +53,4 @@ class TVSubCollectionViewCell: UICollectionViewCell {
 	}
 	
 }
+

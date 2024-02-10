@@ -8,7 +8,7 @@
 import Foundation
 
 
-class TMDBSessionManager {
+final class TMDBSessionManager {
 
 	static let shared = TMDBSessionManager()
 	private init() {}

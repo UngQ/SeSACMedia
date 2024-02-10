@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TVView: BaseView {
+final class TVView: BaseView {
 
 	let mainTableView = UITableView()
 

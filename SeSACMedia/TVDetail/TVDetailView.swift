@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TVDetailView: BaseView {
+final class TVDetailView: BaseView {
 
 
 	let posterImageView = PosterImageView(frame: .zero)
@@ -42,8 +42,6 @@ class TVDetailView: BaseView {
 		videoPlayButton.snp.makeConstraints { make in
 			make.width.size.equalTo(60)
 			make.centerX.centerY.equalTo(posterImageView)
-//			make.bottom.equalTo(posterImageView.snp.bottom)
-//			make.trailing.equalTo(posterImageView.snp.trailing)
 		}
 
 		overviewTextView.snp.makeConstraints { make in
@@ -75,8 +73,9 @@ class TVDetailView: BaseView {
 
 		videoPlayButton.setBackgroundImage(UIImage(systemName: "play.square.fill"), for: .normal)
 		videoPlayButton.layer.opacity = 0.4
-		videoPlayButton.tintColor = .white
+		videoPlayButton.tintColor = .red
 		videoPlayButton.isHidden = true
+		
 
 
 	}

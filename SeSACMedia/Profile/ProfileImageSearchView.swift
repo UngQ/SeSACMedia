@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileImageSearchView: BaseView {
+final class ProfileImageSearchView: BaseView {
 
 	let searchBar = UISearchBar()
 	let totalLabel = UILabel()

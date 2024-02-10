@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TVSubTableViewCell: UITableViewCell {
+final class TVSubTableViewCell: UITableViewCell {
 	
 	let titleLabel = UILabel()
 	let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout(size: CGSize(width: UIScreen.main.bounds.width / 3 - 8  , height: (UIScreen.main.bounds.width / 3 - 8) * 1.4), direction: .horizontal))

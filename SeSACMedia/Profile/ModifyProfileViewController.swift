@@ -8,11 +8,12 @@
 import UIKit
 import SnapKit
 
-class ModifyProfileViewController: BaseViewController {
+final class ModifyProfileViewController: BaseViewController {
 
 	let inputTextField = UITextField()
 	let okButton = UIButton()
 
+	var titleSpace: String?
 	var valueSpace: ((String) -> Void)?
 
     override func viewDidLoad() {
@@ -54,13 +55,29 @@ class ModifyProfileViewController: BaseViewController {
 
 	@objc func okButtonClicked() {
 		
-		valueSpace!(inputTextField.text!)
+		alert(text: inputTextField.text!)
 
-		dismiss(animated: true)
-
-//		Push, Pop으로 구현시 런타임오류
-//		UINavigationController().popViewController(animated: true)
 	}
 
+	
 
+
+}
+
+
+extension ModifyProfileViewController {
+	func alert(text: String) {
+
+		let alert = UIAlertController(title: "\(titleSpace!)", message: "변경 하시겠습니까?", preferredStyle: .alert)
+		let okButton = UIAlertAction(title: "확인", style: .default) { _ in
+			self.valueSpace!(text)
+			self.dismiss(animated: true)
+		}
+		let cancelButton = UIAlertAction(title: "취소", style: .cancel)
+
+		alert.addAction(okButton)
+		alert.addAction(cancelButton)
+
+		present(alert, animated: true)
+	}
 }

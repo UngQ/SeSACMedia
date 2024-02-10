@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ProfileView: BaseView {
+final class ProfileView: BaseView {
 	
 	let profileImageView = PosterImageView(frame: .zero)
 
@@ -66,14 +66,14 @@ class ProfileView: BaseView {
 
 	override func configureView() {
 
-		profileImageView.backgroundColor = .green
+		profileImageView.backgroundColor = .white
 
 		for i in 0...ProfileInfoType.allCases.count - 1 {
 			testView[i].keyLabel.text = ProfileInfoType.allCases[i].title
 			testView[i].modifyButton.tag = i
 		}
 
-		tableView.backgroundColor = .green
+		tableView.backgroundColor = .black
 	}
 
 	required init?(coder: NSCoder) {

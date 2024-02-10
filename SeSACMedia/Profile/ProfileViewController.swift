@@ -32,7 +32,7 @@ enum ProfileInfoType: CaseIterable {
 }
 
 
-class ProfileViewController: BaseViewController {
+final class ProfileViewController: BaseViewController {
 
 	let mainView = ProfileView()
 
@@ -78,7 +78,7 @@ class ProfileViewController: BaseViewController {
 	@objc func modifyButtonClicked(_ sender: UIButton) {
 
 		let vc = ModifyProfileViewController()
-
+		vc.titleSpace = ProfileInfoType.allCases[sender.tag].title
 		vc.valueSpace = { value in
 			self.mainView.testView[sender.tag].valueLabel.text = value
 		}
@@ -96,6 +96,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return ProfileInfoType.allCases.count
+		
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,7 +112,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 
 	@objc func modifyButtonClickedInTableView(sender: UIButton) {
 		let vc = ModifyProfileViewController()
-
+		vc.titleSpace = ProfileInfoType.allCases[sender.tag].title
 		vc.valueSpace = { value in
 			let cell = self.mainView.tableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as! ProfileTableViewCell
 			cell.testView.valueLabel.text = value

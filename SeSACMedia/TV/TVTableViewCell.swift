@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TVTableViewCell: UITableViewCell {
+final class TVTableViewCell: UITableViewCell {
 
 	let posterImageView = PosterImageView(frame: .zero)
 

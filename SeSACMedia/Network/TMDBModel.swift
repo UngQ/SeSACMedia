@@ -57,6 +57,7 @@ struct SeasonInfo: Decodable {
 	let poster: String?
 	let airDate: String?
 	let voteAverage: Double?
+	let seasonNumber: Int
 
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -65,6 +66,7 @@ struct SeasonInfo: Decodable {
 		case poster = "poster_path"
 		case airDate = "air_date"
 		case voteAverage = "vote_average"
+		case seasonNumber = "season_number"
 	}
 
 
@@ -112,5 +114,31 @@ struct Result: Decodable, Equatable {
 		case name, key
 		case publishedAt = "published_at"
 		case site, size, type, official, id
+	}
+}
+
+
+//
+
+struct EpisodeModel: Codable {
+	let episodes: [Episode]?
+	let poster_path: String?
+}
+
+
+struct Episode: Codable {
+
+	let episodeNumber: Int
+	let id: Int
+	let name, overview: String
+	let seasonNumber: Int
+	let stillPath: String?
+
+	enum CodingKeys: String, CodingKey {
+		case episodeNumber = "episode_number"
+		case id, name, overview
+		case seasonNumber = "season_number"
+		case stillPath = "still_path"
+
 	}
 }
